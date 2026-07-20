@@ -1,0 +1,36 @@
+name: Suivi prix ChiNext 50
+
+on:
+  # Lancement automatique tous les jours à 08:00 UTC (~16:00 à Shenzhen,
+  # soit après la clôture de la Bourse de Shenzhen à 15:00 heure locale).
+  schedule:
+    - cron: "0 8 * * *"
+  # Permet aussi de lancer le relevé à la main depuis l'onglet "Actions".
+  workflow_dispatch:
+
+# Autorise le workflow à ré-enregistrer (commit + push) le CSV mis à jour.
+permissions:
+  contents: write
+
+jobs:
+  releve:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v4
+
+      - name: Installer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Récupérer le prix ChiNext 50 (CNY + EUR)
+        run: node recuperer-prix.mjs
+
+      - name: Enregistrer le CSV mis à jour
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add prix.csv
+          git commit -m "Relevé prix ChiNext 50" || echo "Aucun changement à enregistrer"
+          git push
