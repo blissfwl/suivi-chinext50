@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 420" font-family="-apple-system, Segoe UI, Roboto, sans-serif">
   <rect width="900" height="420" fill="#ffffff"/>
   <text x="80" y="34" font-size="18" font-weight="bold" fill="#111827">ChiNext 50 — évolution du cours (EUR)</text>
-  <text x="80" y="52" font-size="12" fill="#6b7280">4 relevé(s) · du 2026-07-20 au 2026-07-20</text>
+  <text x="80" y="52" font-size="12" fill="#6b7280">6 relevé(s) · du 2026-07-20 au 2026-07-20</text>
   <line x1="80" y1="360.0" x2="860" y2="360.0" stroke="#e5e7eb" stroke-width="1"/><text x="70" y="364.0" text-anchor="end" font-size="12" fill="#6b7280">474 €</text><line x1="80" y1="285.0" x2="860" y2="285.0" stroke="#e5e7eb" stroke-width="1"/><text x="70" y="289.0" text-anchor="end" font-size="12" fill="#6b7280">474 €</text><line x1="80" y1="210.0" x2="860" y2="210.0" stroke="#e5e7eb" stroke-width="1"/><text x="70" y="214.0" text-anchor="end" font-size="12" fill="#6b7280">475 €</text><line x1="80" y1="135.0" x2="860" y2="135.0" stroke="#e5e7eb" stroke-width="1"/><text x="70" y="139.0" text-anchor="end" font-size="12" fill="#6b7280">475 €</text><line x1="80" y1="60.0" x2="860" y2="60.0" stroke="#e5e7eb" stroke-width="1"/><text x="70" y="64.0" text-anchor="end" font-size="12" fill="#6b7280">475 €</text>
-  <text x="80.0" y="384" text-anchor="middle" font-size="12" fill="#6b7280">2026-07-20</text><text x="340.0" y="384" text-anchor="middle" font-size="12" fill="#6b7280">2026-07-20</text><text x="860.0" y="384" text-anchor="middle" font-size="12" fill="#6b7280">2026-07-20</text>
-  <path d="M80.0,325.4 L340.0,94.6 L600.0,94.6 L860.0,94.6 L860.0,360.0 L80.0,360.0 Z" fill="#2563eb" fill-opacity="0.08"/>
-  <path d="M80.0,325.4 L340.0,94.6 L600.0,94.6 L860.0,94.6" fill="none" stroke="#2563eb" stroke-width="2.5"/>
-  <circle cx="80.0" cy="325.4" r="3" fill="#2563eb"/><circle cx="340.0" cy="94.6" r="3" fill="#2563eb"/><circle cx="600.0" cy="94.6" r="3" fill="#2563eb"/><circle cx="860.0" cy="94.6" r="3" fill="#2563eb"/>
+  <text x="80.0" y="384" text-anchor="middle" font-size="12" fill="#6b7280">2026-07-20</text><text x="392.0" y="384" text-anchor="middle" font-size="12" fill="#6b7280">2026-07-20</text><text x="860.0" y="384" text-anchor="middle" font-size="12" fill="#6b7280">2026-07-20</text>
+  <path d="M80.0,325.4 L236.0,94.6 L392.0,94.6 L548.0,94.6 L704.0,94.6 L860.0,94.6 L860.0,360.0 L80.0,360.0 Z" fill="#2563eb" fill-opacity="0.08"/>
+  <path d="M80.0,325.4 L236.0,94.6 L392.0,94.6 L548.0,94.6 L704.0,94.6 L860.0,94.6" fill="none" stroke="#2563eb" stroke-width="2.5"/>
+  <circle cx="80.0" cy="325.4" r="3" fill="#2563eb"/><circle cx="236.0" cy="94.6" r="3" fill="#2563eb"/><circle cx="392.0" cy="94.6" r="3" fill="#2563eb"/><circle cx="548.0" cy="94.6" r="3" fill="#2563eb"/><circle cx="704.0" cy="94.6" r="3" fill="#2563eb"/><circle cx="860.0" cy="94.6" r="3" fill="#2563eb"/>
   <text x="860.0" y="82.6" text-anchor="end" font-size="14" font-weight="bold" fill="#1d4ed8">474.74 €</text>
 </svg>
