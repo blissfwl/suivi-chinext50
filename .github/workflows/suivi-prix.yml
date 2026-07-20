@@ -8,7 +8,7 @@ on:
   # Permet aussi de lancer le relevé à la main depuis l'onglet "Actions".
   workflow_dispatch:
 
-# Autorise le workflow à ré-enregistrer (commit + push) le CSV mis à jour.
+# Autorise le workflow à ré-enregistrer (commit + push) le CSV et le graphique.
 permissions:
   contents: write
 
@@ -17,20 +17,44 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Récupérer le dépôt
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Installer Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
-          node-version: "20"
+          node-version: "22"
 
       - name: Récupérer le prix ChiNext 50 (CNY + EUR)
+        id: releve
         run: node recuperer-prix.mjs
 
-      - name: Enregistrer le CSV mis à jour
+      - name: Générer le graphique
+        run: node generer-graphique.mjs
+
+      - name: Enregistrer les fichiers mis à jour
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git add prix.csv
+          git add prix.csv graphique.svg
           git commit -m "Relevé prix ChiNext 50" || echo "Aucun changement à enregistrer"
           git push
+
+      # N'envoie un email que si le script a détecté une variation > 5 % sur 7 jours.
+      - name: Envoyer une alerte email
+        if: steps.releve.outputs.alert == 'true'
+        uses: dawidd6/action-send-mail@v18
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          secure: true
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          to: ${{ secrets.MAIL_TO }}
+          from: Suivi ChiNext 50 <${{ secrets.MAIL_USERNAME }}>
+          subject: "🚨 Alerte ChiNext 50 : ${{ steps.releve.outputs.variation }} % sur 7 jours"
+          body: |
+            ${{ steps.releve.outputs.message }}
+
+            Cours actuel : ${{ steps.releve.outputs.prix_cny }} CNY (${{ steps.releve.outputs.prix_eur }} EUR)
+
+            Historique et graphique : https://github.com/blissfwl/suivi-chinext50
