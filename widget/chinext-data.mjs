@@ -59,8 +59,19 @@ try {
     if (fxRef) weekEur = pct(priceEur, idxRef.c * fxRef.c);
   }
 
+  // --- Série 1 mois (valeurs journalières en EUR) pour le mini-graphique ---
+  const series = idx.pts.map((p) => {
+    const f = plusProche(fx.pts, p.t);
+    return Math.round(p.c * (f ? f.c : rate) * 100) / 100;
+  });
+  // dernier point = prix live, pour coller à la valeur affichée en gros
+  if (series.length) series[series.length - 1] = Math.round(priceEur * 100) / 100;
+  const monthEur = series.length ? pct(priceEur, series[0]) : null;
+
   process.stdout.write(JSON.stringify({
-    ok: true, priceCny, priceEur, rate, dayCny, dayEur, weekCny, weekEur,
+    ok: true, priceCny, priceEur, rate,
+    dayCny, dayEur, weekCny, weekEur,
+    monthEur, series,
   }));
 } catch (e) {
   process.stdout.write(JSON.stringify({ ok: false, error: String(e.message || e) }));

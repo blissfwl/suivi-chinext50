@@ -1,4 +1,4 @@
-// Widget Übersicht — ChiNext 50 (prix + variations jour/semaine en CNY & EUR)
+// Widget Übersicht — ChiNext 50 (prix + variations jour/semaine + mini-graphe 1 mois)
 // COPIE DE RÉFÉRENCE. Le fichier réellement utilisé est dans :
 //   ~/Library/Application Support/Übersicht/widgets/chinext.jsx
 // Si tu modifies celui-ci, recopie-le dans le dossier Übersicht.
@@ -8,10 +8,10 @@ export const refreshFrequency = 5 * 60 * 1000; // rafraîchit toutes les 5 minut
 export const command =
   `/opt/homebrew/bin/node "/Users/mrmatch/Documents/microentreprise/suivi-chinext50/widget/chinext-data.mjs"`;
 
-// Apparence + position de la carte sur le bureau (coin haut-droit)
+// Apparence + position de la carte sur le bureau (coin haut-GAUCHE)
 export const className = `
   top: 40px;
-  right: 40px;
+  left: 40px;
   width: 236px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   color: #f5f5f7;
@@ -43,6 +43,25 @@ export const render = ({ output, error }) => {
   const lbl = { opacity: 0.7 };
   const val = (v) => ({ color: col(v), fontWeight: 600 });
 
+  // Mini-graphique (sparkline) de la série 1 mois en EUR
+  const spark = (data) => {
+    const w = 200, h = 46, pad = 3;
+    const min = Math.min(...data), max = Math.max(...data);
+    const rng = (max - min) || 1;
+    const X = (i) => pad + (i / (data.length - 1)) * (w - 2 * pad);
+    const Y = (v) => pad + (1 - (v - min) / rng) * (h - 2 * pad);
+    const line = data.map((v, i) => `${i ? "L" : "M"}${X(i).toFixed(1)},${Y(v).toFixed(1)}`).join(" ");
+    const area = `${line} L${X(data.length - 1).toFixed(1)},${h - pad} L${X(0).toFixed(1)},${h - pad} Z`;
+    const up = data[data.length - 1] >= data[0];
+    const c = up ? "#34d399" : "#f87171";
+    return (
+      <svg viewBox={`0 0 ${w} ${h}`} style={{ display: "block", width: "100%", height: h + "px" }}>
+        <path d={area} fill={c} fillOpacity="0.12" />
+        <path d={line} fill="none" stroke={c} strokeWidth="1.6" strokeLinejoin="round" strokeLinecap="round" />
+      </svg>
+    );
+  };
+
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
@@ -63,6 +82,16 @@ export const render = ({ output, error }) => {
       <div style={row}><span style={lbl}>Jour · EUR</span><span style={val(d.dayEur)}>{txt(d.dayEur)}</span></div>
       <div style={row}><span style={lbl}>Semaine · CNY</span><span style={val(d.weekCny)}>{txt(d.weekCny)}</span></div>
       <div style={row}><span style={lbl}>Semaine · EUR</span><span style={val(d.weekEur)}>{txt(d.weekEur)}</span></div>
+
+      {d.series && d.series.length > 1 ? (
+        <div style={{ marginTop: "12px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
+            <span style={{ fontSize: "11px", opacity: 0.7 }}>1 mois (EUR)</span>
+            <span style={{ fontSize: "11px", color: col(d.monthEur), fontWeight: 600 }}>{txt(d.monthEur)}</span>
+          </div>
+          {spark(d.series)}
+        </div>
+      ) : null}
 
       <div style={{ marginTop: "10px", fontSize: "10px", opacity: 0.45, textAlign: "right" }}>maj {now}</div>
     </div>
