@@ -5,8 +5,14 @@ on:
   # soit après la clôture de la Bourse de Shenzhen à 15:00 heure locale).
   schedule:
     - cron: "0 8 * * *"
-  # Permet aussi de lancer le relevé à la main depuis l'onglet "Actions".
+  # Permet aussi de lancer le relevé à la main depuis l'onglet "Actions",
+  # avec une case à cocher pour envoyer un email de test.
   workflow_dispatch:
+    inputs:
+      test_email:
+        description: "Envoyer un email de test pour vérifier l'alerte"
+        type: boolean
+        default: false
 
 # Autorise le workflow à ré-enregistrer (commit + push) le CSV et le graphique.
 permissions:
@@ -26,6 +32,8 @@ jobs:
 
       - name: Récupérer le prix ChiNext 50 (CNY + EUR)
         id: releve
+        env:
+          FORCE_ALERT: ${{ inputs.test_email }}
         run: node recuperer-prix.mjs
 
       - name: Générer le graphique

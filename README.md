@@ -42,6 +42,9 @@ glissante**, un email d'alerte est envoyé. Cela nécessite 3 *secrets* dans le 
 | `MAIL_PASSWORD` | « Mot de passe d'application » Gmail (16 caractères)|
 | `MAIL_TO`       | Adresse qui reçoit l'alerte                        |
 
+Pour **tester** l'envoi sans attendre : onglet **Actions** → *Suivi prix ChiNext 50*
+→ **Run workflow** → coche « Envoyer un email de test ».
+
 ## Tester à la main
 
 ```bash

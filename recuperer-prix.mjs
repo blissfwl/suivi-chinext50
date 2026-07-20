@@ -75,6 +75,13 @@ if (reference) {
   }
 }
 
+// Mode test : force une alerte pour vérifier l'envoi d'email (case cochée au lancement manuel).
+if (process.env.FORCE_ALERT === 'true') {
+  alerte = true;
+  message = `✅ Test de l'alerte email — ChiNext 50 actuellement à ${cny} CNY (${eur} EUR). `
+          + `Si tu lis ce message, l'alerte fonctionne parfaitement !`;
+}
+
 // Transmet le résultat au workflow GitHub (via le fichier $GITHUB_OUTPUT)
 if (process.env.GITHUB_OUTPUT) {
   fs.appendFileSync(process.env.GITHUB_OUTPUT, [
