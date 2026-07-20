@@ -1,0 +1,12 @@
+# --- Secrets (le plus important) ---
+.env
+.env.*
+
+# --- Fichiers système macOS ---
+.DS_Store
+
+# --- Dépendances Node (si un jour tu en installes) ---
+node_modules/
+
+# --- Journaux ---
+*.log
