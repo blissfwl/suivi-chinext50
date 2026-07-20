@@ -12,7 +12,7 @@ export const command =
 export const className = `
   top: 40px;
   left: 40px;
-  width: 236px;
+  width: 240px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   color: #f5f5f7;
   background: rgba(20, 22, 28, 0.72);
@@ -43,21 +43,28 @@ export const render = ({ output, error }) => {
   const lbl = { opacity: 0.7 };
   const val = (v) => ({ color: col(v), fontWeight: 600 });
 
-  // Mini-graphique (sparkline) de la série 1 mois en EUR
+  // Mini-graphique (sparkline) de la série 1 mois en EUR — dégradé + point final
   const spark = (data) => {
-    const w = 200, h = 46, pad = 3;
-    const min = Math.min(...data), max = Math.max(...data);
-    const rng = (max - min) || 1;
+    const w = 210, h = 54, pad = 4;
+    const min = Math.min(...data), max = Math.max(...data), rng = (max - min) || 1;
     const X = (i) => pad + (i / (data.length - 1)) * (w - 2 * pad);
     const Y = (v) => pad + (1 - (v - min) / rng) * (h - 2 * pad);
     const line = data.map((v, i) => `${i ? "L" : "M"}${X(i).toFixed(1)},${Y(v).toFixed(1)}`).join(" ");
     const area = `${line} L${X(data.length - 1).toFixed(1)},${h - pad} L${X(0).toFixed(1)},${h - pad} Z`;
     const up = data[data.length - 1] >= data[0];
     const c = up ? "#34d399" : "#f87171";
+    const ex = X(data.length - 1), ey = Y(data[data.length - 1]);
     return (
-      <svg viewBox={`0 0 ${w} ${h}`} style={{ display: "block", width: "100%", height: h + "px" }}>
-        <path d={area} fill={c} fillOpacity="0.12" />
-        <path d={line} fill="none" stroke={c} strokeWidth="1.6" strokeLinejoin="round" strokeLinecap="round" />
+      <svg viewBox={`0 0 ${w} ${h}`} style={{ display: "block", width: "100%", height: h + "px", overflow: "visible" }}>
+        <defs>
+          <linearGradient id="cnxGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor={c} stopOpacity="0.30" />
+            <stop offset="100%" stopColor={c} stopOpacity="0" />
+          </linearGradient>
+        </defs>
+        <path d={area} fill="url(#cnxGrad)" />
+        <path d={line} fill="none" stroke={c} strokeWidth="1.8" strokeLinejoin="round" strokeLinecap="round" />
+        <circle cx={ex.toFixed(1)} cy={ey.toFixed(1)} r="2.6" fill={c} />
       </svg>
     );
   };
@@ -85,7 +92,7 @@ export const render = ({ output, error }) => {
 
       {d.series && d.series.length > 1 ? (
         <div style={{ marginTop: "12px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "2px" }}>
             <span style={{ fontSize: "11px", opacity: 0.7 }}>1 mois (EUR)</span>
             <span style={{ fontSize: "11px", color: col(d.monthEur), fontWeight: 600 }}>{txt(d.monthEur)}</span>
           </div>
@@ -93,7 +100,7 @@ export const render = ({ output, error }) => {
         </div>
       ) : null}
 
-      <div style={{ marginTop: "10px", fontSize: "10px", opacity: 0.45, textAlign: "right" }}>maj {now}</div>
+      <div style={{ marginTop: "8px", fontSize: "10px", opacity: 0.45, textAlign: "right" }}>maj {now}</div>
     </div>
   );
 };

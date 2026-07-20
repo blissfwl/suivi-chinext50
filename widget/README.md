@@ -1,8 +1,12 @@
 # Widget bureau ChiNext 50 (Übersicht)
 
 Un widget affiché **directement sur le bureau** du Mac, qui montre en temps réel
-le cours du ChiNext 50 et ses variations **jour** et **semaine glissante**, en
-**CNY et EUR**. Indépendant du suivi GitHub (il interroge Yahoo Finance en direct).
+le cours du ChiNext 50, ses variations **jour** et **semaine glissante** en
+**CNY et EUR**, et un **mini-graphique 1 mois**. Indépendant du suivi GitHub.
+
+Sources : **Yahoo Finance** (prix live de l'indice + taux CNY→EUR et son historique)
+et **Sina** (historique quotidien de l'indice — Yahoo ne le fournit pas pour ce
+symbole).
 
 ## Fichiers
 
